@@ -1,0 +1,39 @@
+# Повний набір даних CFPB
+data/*.csv
+data/*.zip
+
+# Дозволити невеликий приклад даних
+!data/complaints_sample.csv
+
+# Файли бази SQLite
+database/*.db
+database/*.sqlite
+database/*.sqlite3
+
+# Тимчасові файли SQLite
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Тимчасові файли Power BI
+~$*.pbix
+*.pbix.tmp
+
+# Налаштування редакторів
+.vscode/
+.idea/
+
+# Системні файли Windows і macOS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Тимчасові файли та журнали
+*.tmp
+*.log
+
+# Python — на випадок використання для очищення даних
+__pycache__/
+*.pyc
+.venv/
+venv/
