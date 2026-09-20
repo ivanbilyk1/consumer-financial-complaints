@@ -1,47 +1,56 @@
+DROP TABLE IF EXISTS "complaints_raw";
+DROP TABLE IF EXISTS "complaints";
+DROP TABLE IF EXISTS "companies";
+DROP TABLE IF EXISTS "products";
+DROP TABLE IF EXISTS "subproducts";
+DROP TABLE IF EXISTS "issues";
+DROP TABLE IF EXISTS "subissues";
+DROP TABLE IF EXISTS "locations";
+DROP TABLE IF EXISTS "submission_channels";
+DROP TABLE IF EXISTS "response_types";
+DROP TABLE IF EXISTS "complaint_responses";
+DROP TABLE IF EXISTS "tags";
+DROP TABLE IF EXISTS "complaint_tags";
+
 CREATE TABLE IF NOT EXISTS "complaints_raw" (
-    "data_received" DATA NOT NULL,
-    "product" TEXT NOT NULL,
+    "date_received" TEXT,
+    "product" TEXT,
     "sub_product" TEXT,
-    "issue" TEXT NOT NULL,
+    "issue" TEXT,
     "sub_issue" TEXT,
-    "consumer_complaint_narrative" TEXT,
-    "company_public_response" TEXT NOT NULL,
-    "company" TEXT NOT NULL,
-    "state" TEXT NOT NULL,
-    "zip_code" INTEGER NOT NULL,
-    "tags" TEXT NOT NULL,
-    "consumer_consent_provided" TEXT NOT NULL,
+    "company_public_response" TEXT,
+    "company" TEXT,
+    "state" TEXT,
+    "zip_code" TEXT,
+    "tags" TEXT,
     "submitted_via" TEXT,
-    "date_sent_to_company" DATA NOT NULL,
-    "company_response_to_consumer" TEXT NOT NULL,
-    "timely_response" TEXT NOT NULL  CHECK ("timely_response" IN ('Yes', 'No')),
-    "consumer_disputed" TEXT,
-    "complaint_id" INTEGER NOT NULL
+    "date_sent_to_company" TEXT,
+    "company_response_to_consumer" TEXT,
+    "timely_response" TEXT,
+    "complaint_id" INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS "complaints" (
     "id" INTEGER NOT NULL,
-    "date_received" DATA NOT NULL,
+    "date_received" TEXT  NOT NULL,
     "company_id" INTEGER NOT NULL,
     "product_id" INTEGER NOT NULL,
     "subproduct_id" INTEGER,
     "issue_id" INTEGER NOT NULL,
     "subissue_id" INTEGER,
-    "location_id" INTEGER NOT NULL,
+    "location_id" INTEGER,
     "submission_channel_id" INTEGER NOT NULL,
-    "date_sent_to_company" DATA NOT NULL,
-    "consumer_narrative" TEXT NOT NULL,
-    "consumer_consent_provided" TEXT NOT NULL,
-    "timely_response" TEXT  CHECK ("timely_response" IN ('TRUE', 'FALSE', 'NULL')),
-    "consumer_disputed" TEXT  CHECK ("consumer_disputed" IN ('TRUE', 'FALSE', 'NULL')),
+    "date_sent_to_company" TEXT,
+"timely_response" INTEGER
+    CHECK ("timely_response" IN (0, 1)),
     PRIMARY KEY("id"),
-    FOREIGN KEY ("product_id") REFERENCES "product"("id"),
+    FOREIGN KEY ("product_id") REFERENCES "products"("id"),
     FOREIGN KEY ("company_id") REFERENCES "companies"("id"),
     FOREIGN KEY ("subproduct_id") REFERENCES "subproducts"("id"),
     FOREIGN KEY ("subissue_id") REFERENCES "subissues"("id"),
     FOREIGN KEY ("issue_id") REFERENCES "issues"("id"),
     FOREIGN KEY ("location_id") REFERENCES "locations"("id"),
-    FOREIGN KEY ("submission_channels_id") REFERENCES "submission_channels"("id")
+    FOREIGN KEY ("submission_channel_id") REFERENCES "submission_channels"("id")
 );
 
 CREATE TABLE IF NOT EXISTS "companies" (
@@ -61,7 +70,7 @@ CREATE TABLE IF NOT EXISTS "subproducts" (
     "product_id" INTEGER NOT NULL,
     "name" TEXT NOT NULL,
     PRIMARY KEY ("id"),
-    FOREIGN KEY ("product_id") REFERENCES "product"("id")
+    FOREIGN KEY ("product_id") REFERENCES "products"("id")
 );
 
 CREATE TABLE IF NOT EXISTS "issues" (
@@ -81,7 +90,7 @@ CREATE TABLE IF NOT EXISTS "subissues" (
 CREATE TABLE IF NOT EXISTS "locations" (
     "id" INTEGER NOT NULL,
     "state" TEXT NOT NULL,
-    "zip_code" INTEGER,
+    "zip_code" TEXT,
     PRIMARY KEY("id")
 );
 
@@ -102,9 +111,8 @@ CREATE TABLE IF NOT EXISTS "complaint_responses" (
     "complaint_id" INTEGER NOT NULL,
     "response_type_id" INTEGER NOT NULL,
     "public_response" TEXT,
-    "name" TEXT NOT NULL,
     PRIMARY KEY("id"),
-    FOREIGN KEY ("response_type_id") REFERENCES "complaints"("id"),
+    FOREIGN KEY ("complaint_id") REFERENCES "complaints"("id"),
     FOREIGN KEY ("response_type_id") REFERENCES "response_types"("id")
 );
 
