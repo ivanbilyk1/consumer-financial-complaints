@@ -35,8 +35,7 @@ The dashboard summarizes a sample of **10,000 complaints** and includes:
 ## Data model
 
 The Power BI report uses a star schema. `FactComplaints` is the central fact table and is connected to dimension tables containing companies, products, issues, locations, submission channels, response types, and dates.
-
-![Database diagram](diagrams/database_diagram.png)
+(diagrams/complaints-relationship-diagram)
 
 ## Project structure
 
