@@ -14,10 +14,7 @@ database/*.sqlite3
 *.db-journal
 *.db-wal
 *.db-shm
-
-# Тимчасові файли Power BI
-~$*.pbix
-*.pbix.tmp
+/complaints.db
 
 # Налаштування редакторів
 .vscode/
@@ -31,9 +28,3 @@ Desktop.ini
 # Тимчасові файли та журнали
 *.tmp
 *.log
-
-# Python — на випадок використання для очищення даних
-__pycache__/
-*.pyc
-.venv/
-venv/
